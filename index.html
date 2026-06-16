@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velor Club — Meet. Learn. Explore.</title>
+<meta name="description" content="Velor Club is a community platform connecting people through hiking, camping, travel, networking, and learning experiences across Nepal.">
+<meta name="theme-color" content="#111111">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Velor Club — Meet. Learn. Explore.">
+<meta property="og:description" content="Join hiking adventures, camping trips, networking events, workshops, travel groups, and local communities in Nepal.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          ink: '#111111',
+          paper: '#FFFFFF',
+          gold: '#C9A227',
+          stone: '#F7F4EE',
+          charcoal: '#1B1B1B',
+          'charcoal-2': '#232323',
+          'gold-tint': '#E8DCB8',
+          mist: '#EFEBE2',
+        },
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          sans: ['Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        },
+        maxWidth: { 'content': '1280px' },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root { color-scheme: light; }
+  html.dark { color-scheme: dark; }
+
+  * { -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  body {
+    background: #FFFFFF;
+    color: #111111;
+    font-family: 'Inter', sans-serif;
+    transition: background-color .35s ease, color .35s ease;
+  }
+  html.dark body { background: #111111; color: #F5F3EE; }
+
+  .font-display { font-family: 'Fraunces', serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  /* Visible keyboard focus */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid #C9A227;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Trail line signature element */
+  .trail-line path {
+    stroke-dasharray: 8 6;
+    stroke-dashoffset: 0;
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  .stagger-1 { transition-delay: 0.05s; }
+  .stagger-2 { transition-delay: 0.12s; }
+  .stagger-3 { transition-delay: 0.19s; }
+  .stagger-4 { transition-delay: 0.26s; }
+
+  /* Card hover lift */
+  .lift { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; }
+  .lift:hover { transform: translateY(-6px); }
+
+  /* Marquee for category strip on mobile */
+  .scroll-x { -ms-overflow-style: none; scrollbar-width: none; }
+  .scroll-x::-webkit-scrollbar { display: none; }
+
+  /* Gold underline link */
+  .underline-grow {
+    background-image: linear-gradient(#C9A227, #C9A227);
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size .35s ease;
+  }
+  .underline-grow:hover { background-size: 100% 1.5px; }
+
+  /* Texture grain overlay (very subtle) */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .btn-primary {
+    background: #111111; color: #FFFFFF;
+    transition: background-color .3s ease, transform .2s ease;
+  }
+  html.dark .btn-primary { background: #C9A227; color: #111111; }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-gold {
+    background: #C9A227; color: #111111;
+    transition: filter .3s ease, transform .2s ease;
+  }
+  .btn-gold:hover { filter: brightness(1.08); transform: translateY(-2px); }
+
+  .ring-card {
+    border: 1px solid rgba(17,17,17,0.08);
+  }
+  html.dark .ring-card { border-color: rgba(255,255,255,0.10); }
+
+  /* Mobile menu */
+  #mobile-menu { transform: translateY(-12px); opacity: 0; pointer-events: none; transition: transform .3s cubic-bezier(.2,.7,.2,1), opacity .3s ease; }
+  #mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+  /* Avatar stack */
+  .avatar-stack img { box-shadow: 0 0 0 2px #FFFFFF; }
+  html.dark .avatar-stack img { box-shadow: 0 0 0 2px #1B1B1B; }
+</style>
+</head>
+
+<body class="antialiased selection:bg-gold selection:text-ink">
+
+<!-- Skip link -->
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-ink focus:text-white focus:px-4 focus:py-2 focus:rounded">Skip to content</a>
+
+<!-- ============ NAVBAR ============ -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+    <div id="navInner" class="flex items-center justify-between py-4 transition-all duration-300">
+      <a href="#main" class="flex items-center gap-2 group">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" class="shrink-0">
+          <path d="M14 2L25 24H3L14 2Z" stroke="#C9A227" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M9.5 16L14 8L18.5 16" stroke="currentColor" class="text-ink dark:text-white" stroke-width="1.6" stroke-linejoin="round"/>
+        </svg>
+        <span class="font-display text-xl tracking-tight text-ink dark:text-white">Velor <span class="text-gold">Club</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-9 font-mono text-[0.78rem] tracking-wide uppercase text-ink/70 dark:text-white/70">
+        <a href="#" class="underline-grow text-ink dark:text-white">Home</a>
+        <a href="#communities" class="underline-grow hover:text-ink dark:hover:text-white">Communities</a>
+        <a href="#events" class="underline-grow hover:text-ink dark:hover:text-white">Events</a>
+        <a href="#create-event" class="underline-grow hover:text-ink dark:hover:text-white">Create Event</a>
+        <a href="#about" class="underline-grow hover:text-ink dark:hover:text-white">About</a>
+        <a href="#contact" class="underline-grow hover:text-ink dark:hover:text-white">Contact</a>
+      </nav>
+
+      <div class="hidden md:flex items-center gap-3">
+        <button id="themeToggle" aria-label="Toggle dark mode" class="w-9 h-9 grid place-items-center rounded-full ring-card hover:bg-stone dark:hover:bg-charcoal-2 transition-colors">
+          <svg id="iconSun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:hidden"><circle cx="12" cy="12" r="4.2" stroke-width="1.8"/><path stroke-width="1.8" stroke-linecap="round" d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+          <svg id="iconMoon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="hidden dark:block text-white"><path stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        </button>
+        <a href="#" class="px-5 py-2.5 rounded-full text-sm font-semibold btn-primary">Join Velor Club</a>
+      </div>
+
+      <div class="flex items-center gap-2 md:hidden">
+        <button id="themeToggleMobile" aria-label="Toggle dark mode" class="w-9 h-9 grid place-items-center rounded-full ring-card">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:hidden"><circle cx="12" cy="12" r="4.2" stroke-width="1.8"/><path stroke-width="1.8" stroke-linecap="round" d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="hidden dark:block text-white"><path stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        </button>
+        <button id="menuBtn" aria-label="Open menu" aria-expanded="false" class="w-9 h-9 grid place-items-center rounded-full ring-card">
+          <svg id="menuIconOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:text-white"><path stroke-width="1.8" stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18"/></svg>
+          <svg id="menuIconClose" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:text-white hidden"><path stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden absolute top-full inset-x-0 bg-white dark:bg-ink border-t border-ink/10 dark:border-white/10 shadow-xl">
+    <nav class="flex flex-col px-6 py-6 gap-1 font-mono text-sm uppercase tracking-wide">
+      <a href="#" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink dark:text-white">Home</a>
+      <a href="#communities" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Communities</a>
+      <a href="#events" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Events</a>
+      <a href="#create-event" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Create Event</a>
+      <a href="#about" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">About</a>
+      <a href="#contact" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Contact</a>
+      <a href="#" class="mt-4 text-center px-5 py-3 rounded-full text-sm font-semibold btn-primary normal-case">Join Velor Club</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="relative overflow-hidden bg-stone dark:bg-charcoal pt-32 pb-20 sm:pt-40 sm:pb-28">
+  <div class="absolute inset-0 grain"></div>
+
+  <!-- Topographic background lines -->
+  <svg class="absolute inset-0 w-full h-full opacity-[0.5] dark:opacity-[0.25]" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid slice" fill="none">
+    <path d="M-50 650 Q 200 580 400 630 T 900 600 T 1400 660" stroke="#111111" stroke-opacity="0.08" stroke-width="1.5"/>
+    <path d="M-50 700 Q 250 640 480 690 T 950 660 T 1400 710" stroke="#111111" stroke-opacity="0.08" stroke-width="1.5"/>
+    <path d="M-50 750 Q 300 700 550 740 T 1000 720 T 1400 760" stroke="#111111" stroke-opacity="0.08" stroke-width="1.5"/>
+    <path d="M-50 600 Q 180 520 420 570 T 880 540 T 1400 610" stroke="#C9A227" stroke-opacity="0.18" stroke-width="1.5"/>
+  </svg>
+
+  <div class="relative max-w-content mx-auto px-5 sm:px-8 grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-10 items-center">
+    <div>
+      <div class="reveal in-view eyebrow flex items-center gap-2 text-ink/60 dark:text-white/60 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+        Now live across Kathmandu &amp; Pokhara
+      </div>
+
+      <h1 class="reveal in-view stagger-1 font-display text-[2.6rem] leading-[1.06] sm:text-6xl lg:text-[4.1rem] tracking-tight text-ink dark:text-white font-medium">
+        Meet New People<br>Through <span class="italic text-gold">Real</span> Experiences
+      </h1>
+
+      <p class="reveal in-view stagger-2 mt-7 text-lg text-ink/70 dark:text-white/70 max-w-md leading-relaxed">
+        Join hiking adventures, camping trips, networking events, workshops, travel groups, and local communities — built around people, not screens.
+      </p>
+
+      <div class="reveal in-view stagger-3 mt-9 flex flex-wrap items-center gap-4">
+        <a href="#events" class="px-7 py-3.5 rounded-full font-semibold text-sm sm:text-base btn-primary">Explore Events</a>
+        <a href="#communities" class="px-7 py-3.5 rounded-full font-semibold text-sm sm:text-base ring-1 ring-ink/15 dark:ring-white/20 text-ink dark:text-white hover:bg-ink/5 dark:hover:bg-white/5 transition-colors">Join Community</a>
+      </div>
+
+      <div class="reveal in-view stagger-4 mt-10 flex items-center gap-4">
+        <div class="avatar-stack flex -space-x-3">
+          <img src="https://i.pravatar.cc/64?img=12" alt="" class="w-9 h-9 rounded-full object-cover" loading="lazy">
+          <img src="https://i.pravatar.cc/64?img=33" alt="" class="w-9 h-9 rounded-full object-cover" loading="lazy">
+          <img src="https://i.pravatar.cc/64?img=47" alt="" class="w-9 h-9 rounded-full object-cover" loading="lazy">
+          <img src="https://i.pravatar.cc/64?img=25" alt="" class="w-9 h-9 rounded-full object-cover" loading="lazy">
+        </div>
+        <p class="text-sm text-ink/60 dark:text-white/60"><span class="font-semibold text-ink dark:text-white">3,200+</span> members exploring together</p>
+      </div>
+    </div>
+
+    <div class="relative reveal in-view stagger-2">
+      <div class="relative rounded-[28px] overflow-hidden ring-card shadow-2xl shadow-ink/10">
+        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=1200&auto=format&fit=crop" alt="Group of hikers reaching a mountain ridge in Nepal at sunrise" class="w-full h-[420px] sm:h-[480px] object-cover" loading="eager">
+      </div>
+
+      <div class="absolute -bottom-6 -left-6 sm:-left-10 bg-white dark:bg-charcoal-2 ring-card rounded-2xl shadow-xl p-4 w-48 hidden sm:block">
+        <p class="eyebrow text-gold mb-1">This weekend</p>
+        <p class="font-display text-base text-ink dark:text-white leading-snug">Shivapuri Weekend Hike</p>
+        <p class="text-xs text-ink/50 dark:text-white/50 mt-1">42 going</p>
+      </div>
+
+      <div class="absolute -top-6 -right-4 sm:-right-8 bg-white dark:bg-charcoal-2 ring-card rounded-2xl shadow-xl p-4 w-44 hidden sm:block">
+        <p class="eyebrow text-ink/40 dark:text-white/40 mb-1">Networking</p>
+        <p class="font-display text-base text-ink dark:text-white leading-snug">Startup Night, Thamel</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trail connector -->
+<div class="relative max-w-content mx-auto px-5 sm:px-8 -mt-px">
+  <svg class="trail-line w-full h-10" viewBox="0 0 1280 40" preserveAspectRatio="none" fill="none">
+    <path d="M0 20 Q 320 0 640 20 T 1280 20" stroke="#C9A227" stroke-opacity="0.4" stroke-width="1.5"/>
+  </svg>
+</div>
+
+<!-- ============ CATEGORIES ============ -->
+<section class="py-20 sm:py-28 bg-white dark:bg-ink">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+    <div class="reveal flex items-end justify-between flex-wrap gap-4 mb-12">
+      <div>
+        <p class="eyebrow text-gold mb-3">Find your terrain</p>
+        <h2 class="font-display text-3xl sm:text-4xl text-ink dark:text-white tracking-tight">Explore by interest</h2>
+      </div>
+      <p class="text-ink/55 dark:text-white/55 max-w-xs text-sm leading-relaxed">Every category is a doorway to a community that's already out there, doing the thing.</p>
+    </div>
+
+    <div class="flex gap-4 overflow-x-auto scroll-x pb-2 -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 lg:grid-cols-4 sm:gap-5">
+      <!-- Category card template -->
+      <a href="#communities" class="reveal lift shrink-0 w-[170px] sm:w-auto group rounded-2xl ring-card bg-stone dark:bg-charcoal-2 p-6 flex flex-col gap-4 hover:bg-mist dark:hover:bg-[#2a2a2a]">
+        <span class="text-3xl">🥾</span>
+        <div>
+          <p class="font-display text-lg text-ink dark:text-white">Hiking</p>
+          <p class="text-xs text-ink/45 dark:text-white/45 mt-0.5 font-mono">42 groups</p>
+        </div>
+      </a>
+      <a href="#communities" class="reveal stagger-1 lift shrink-0 w-[170px] sm:w-auto group rounded-2xl ring-card bg-stone dark:bg-charcoal-2 p-6 flex flex-col gap-4 hover:bg-mist dark:hover:bg-[#2a2a2a]">
+        <span class="text-3xl">🏕</span>
+        <div>
+          <p class="font-display text-lg text-ink dark:text-white">Camping</p>
+          <p class="text-xs text-ink/45 dark:text-white/45 mt-0.5 font-mono">27 groups</p>
+        </div>
+      </a>
+      <a href="#communities" class="reveal stagger-2 lift shrink-0 w-[170px] sm:w-auto group rounded-2xl ring-card bg-stone dark:bg-charcoal-2 p-6 flex flex-col gap-4 hover:bg-mist dark:hover:bg-[#2a2a2a]">
+        <span class="text-3xl">✈️</span>
+        <div>
+          <p class="font-display text-lg text-ink dark:text-white">Travel</p>
+          <p class="text-xs text-ink/45 dark:text-white/45 mt-0.5 font-mono">35 groups</p>
+        </div>
+      </a>
+      <a href="#communities" class="reveal stagger-3 lift shrink-0 w-[170px] sm:w-auto group rounded-2xl ring-card bg-stone dark:bg-charcoal-2 p-6 flex flex-col gap-4 hover:bg-mist dark:hover:bg-[#2a2a2a]">
+        <span class="text-3xl">💼</span>
+        <div>
+          <p class="font-display text-lg text-ink dark:text-white">Networking</p>
+          <p class="text-xs text-ink/45 dark:text-white/45 mt-0.5 font-mono">19 groups</p>
+        </div>
+      </a>
+      <a href="#communities" class="reveal lift shrink-0 w-[170px] sm:w-auto group rounded-2xl ring-card bg-stone dark:bg-charcoal-2 p-6 flex flex-col gap-4 hover:bg-mist dark:hover:bg-[#2a2a2a]">
+        <span class="text-3xl">🤖</span>
+        <div>
+          <p class="font-display text-lg text-ink dark:text-white">AI &amp; Tech</p>
+          <p class="text-xs text-ink/45 dark:text-white/45 mt-0.5 font-mono">23 groups</p>
+        </div>
+      </a>
+      <a href="#communities" class="reveal stagger-1 lift shrink-0 w-[170px] sm:w-auto group rounded-2xl ring-card bg-stone dark:bg-charcoal-2 p-6 flex flex-col gap-4 hover:bg-mist dark:hover:bg-[#2a2a2a]">
+        <span class="text-3xl">📸</span>
+        <div>
+          <p class="font-display text-lg text-ink dark:text-white">Photography</p>
+          <p class="text-xs text-ink/45 dark:text-white/45 mt-0.5 font-mono">16 groups</p>
+        </div>
+      </a>
+      <a href="#communities" class="reveal stagger-2 lift shrink-0 w-[170px] sm:w-auto group rounded-2xl ring-card bg-stone dark:bg-charcoal-2 p-6 flex flex-col gap-4 hover:bg-mist dark:hover:bg-[#2a2a2a]">
+        <span class="text-3xl">🚴</span>
+        <div>
+          <p class="font-display text-lg text-ink dark:text-white">Cycling</p>
+          <p class="text-xs text-ink/45 dark:text-white/45 mt-0.5 font-mono">14 groups</p>
+        </div>
+      </a>
+      <a href="#communities" class="reveal stagger-3 lift shrink-0 w-[170px] sm:w-auto group rounded-2xl ring-card bg-stone dark:bg-charcoal-2 p-6 flex flex-col gap-4 hover:bg-mist dark:hover:bg-[#2a2a2a]">
+        <span class="text-3xl">📚</span>
+        <div>
+          <p class="font-display text-lg text-ink dark:text-white">Learning</p>
+          <p class="text-xs text-ink/45 dark:text-white/45 mt-0.5 font-mono">21 groups</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED COMMUNITIES ============ -->
+<section id="communities" class="py-20 sm:py-28 bg-stone dark:bg-charcoal">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+    <div class="reveal mb-12">
+      <p class="eyebrow text-gold mb-3">3,200+ members, 140+ groups</p>
+      <h2 class="font-display text-3xl sm:text-4xl text-ink dark:text-white tracking-tight">Featured communities</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <article class="reveal lift bg-white dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=800&auto=format&fit=crop" alt="Hikers on a Kathmandu valley ridge trail" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <h3 class="font-display text-xl text-ink dark:text-white">Kathmandu Hiking Club</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Weekend trails, sunrise summits, and a crew that always brings extra tea.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">842 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal stagger-1 lift bg-white dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop" alt="Travelers looking over a mountain valley" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <h3 class="font-display text-xl text-ink dark:text-white">Nepal Travel Buddies</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Find a co-traveler for your next route, from Pokhara lakeside to Mustang.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">611 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal stagger-2 lift bg-white dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=800&auto=format&fit=crop" alt="Founders meeting at a cafe table with laptops" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <h3 class="font-display text-xl text-ink dark:text-white">Entrepreneurs Nepal</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Founders, operators, and first hires building things — and comparing notes.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">498 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal lift bg-white dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop" alt="People at a workshop looking at a laptop screen" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <h3 class="font-display text-xl text-ink dark:text-white">AI Learners Nepal</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Weekly build-alongs, paper readings, and demo nights for the curious.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">356 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal stagger-1 lift bg-white dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1554080353-a576cf803bda?q=80&w=800&auto=format&fit=crop" alt="Photographer adjusting a camera outdoors" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <h3 class="font-display text-xl text-ink dark:text-white">Photography Club Nepal</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Golden-hour walks and feedback sessions, all gear levels welcome.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">279 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal stagger-2 lift bg-white dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=800&auto=format&fit=crop" alt="Group camping with tents near a forest" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <h3 class="font-display text-xl text-ink dark:text-white">Weekend Adventure Club</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">For the "let's just go" crowd — camping, day trips, and spontaneous plans.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">734 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ UPCOMING EVENTS ============ -->
+<section id="events" class="py-20 sm:py-28 bg-white dark:bg-ink">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+    <div class="reveal flex items-end justify-between flex-wrap gap-4 mb-12">
+      <div>
+        <p class="eyebrow text-gold mb-3">This month</p>
+        <h2 class="font-display text-3xl sm:text-4xl text-ink dark:text-white tracking-tight">Upcoming events</h2>
+      </div>
+      <a href="#" class="underline-grow text-sm font-medium text-ink dark:text-white">View all events →</a>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <article class="reveal lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" alt="Trail leading toward forested hills near Shivapuri" class="w-full h-40 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Hiking</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SAT, JUN 20 · 6:00 AM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Shivapuri Weekend Hike</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Shivapuri National Park, Kathmandu</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">42 going</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal stagger-1 lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" alt="People networking at an evening event" class="w-full h-40 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Networking</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">THU, JUN 25 · 6:30 PM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Startup Networking Night</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Thamel, Kathmandu</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">68 going</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal stagger-2 lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop" alt="Workshop attendees collaborating around a laptop" class="w-full h-40 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Workshop</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SAT, JUN 27 · 11:00 AM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">AI Workshop Kathmandu</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Baluwatar, Kathmandu</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">51 going</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=800&auto=format&fit=crop" alt="Photographer walking through old city streets at sunset" class="w-full h-40 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Photography</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SUN, JUN 28 · 4:00 PM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Photography Walk</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Patan Durbar Square</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">29 going</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal stagger-1 lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=800&auto=format&fit=crop" alt="Tents set up by a lake at dusk" class="w-full h-40 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Camping</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">FRI, JUL 3 · 5:00 PM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Camping Adventure</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Tikathali, Pokhara</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">37 going</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reveal stagger-2 lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col items-center justify-center text-center p-8 gap-3">
+        <span class="text-3xl">+</span>
+        <h3 class="font-display text-lg text-ink dark:text-white">Got an idea?</h3>
+        <p class="text-sm text-ink/55 dark:text-white/55">Start your own event in minutes — Velor handles the rest.</p>
+        <a href="#create-event" class="mt-1 px-5 py-2.5 rounded-full text-xs font-semibold btn-gold">Create Event</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="py-20 sm:py-28 bg-stone dark:bg-charcoal relative overflow-hidden">
+  <div class="max-w-content mx-auto px-5 sm:px-8 relative">
+    <div class="reveal mb-16 max-w-lg">
+      <p class="eyebrow text-gold mb-3">The path</p>
+      <h2 class="font-display text-3xl sm:text-4xl text-ink dark:text-white tracking-tight">How it works</h2>
+    </div>
+
+    <div class="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
+      <!-- connecting trail line desktop -->
+      <svg class="hidden lg:block absolute top-7 left-0 w-full h-6 -z-0" viewBox="0 0 1200 24" preserveAspectRatio="none" fill="none">
+        <path d="M60 12 H1140" stroke="#C9A227" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
+      </svg>
+
+      <div class="reveal relative z-10 flex flex-col gap-4">
+        <div class="w-14 h-14 rounded-full bg-white dark:bg-charcoal-2 ring-card grid place-items-center font-mono text-sm text-gold">01</div>
+        <h3 class="font-display text-xl text-ink dark:text-white">Choose your interests</h3>
+        <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed">Pick the activities that pull you outdoors, into a room, or into a new skill.</p>
+      </div>
+
+      <div class="reveal stagger-1 relative z-10 flex flex-col gap-4">
+        <div class="w-14 h-14 rounded-full bg-white dark:bg-charcoal-2 ring-card grid place-items-center font-mono text-sm text-gold">02</div>
+        <h3 class="font-display text-xl text-ink dark:text-white">Join communities</h3>
+        <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed">Find your people — local groups already meeting around what you love.</p>
+      </div>
+
+      <div class="reveal stagger-2 relative z-10 flex flex-col gap-4">
+        <div class="w-14 h-14 rounded-full bg-white dark:bg-charcoal-2 ring-card grid place-items-center font-mono text-sm text-gold">03</div>
+        <h3 class="font-display text-xl text-ink dark:text-white">Attend events</h3>
+        <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed">RSVP and show up. No small talk required — the activity does the work.</p>
+      </div>
+
+      <div class="reveal stagger-3 relative z-10 flex flex-col gap-4">
+        <div class="w-14 h-14 rounded-full bg-white dark:bg-charcoal-2 ring-card grid place-items-center font-mono text-sm text-gold">04</div>
+        <h3 class="font-display text-xl text-ink dark:text-white">Build real connections</h3>
+        <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed">Friendships and collaborators that started on a trail, not a feed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="py-20 sm:py-28 bg-white dark:bg-ink">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+    <div class="reveal mb-12">
+      <p class="eyebrow text-gold mb-3">From the community</p>
+      <h2 class="font-display text-3xl sm:text-4xl text-ink dark:text-white tracking-tight">What members say</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-6">
+      <figure class="reveal lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card p-7 flex flex-col gap-5">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="none" class="text-gold"><path fill="currentColor" d="M0 20V11.2C0 4.5 3.9 0.6 9.8 0v3.9c-3 0.6-4.6 2.6-4.8 5.5H9.8V20H0Zm15.2 0V11.2c0-6.7 3.9-10.6 9.8-11.2v3.9c-3 0.6-4.6 2.6-4.8 5.5h4.6V20h-9.6Z"/></svg>
+        <blockquote class="text-ink/80 dark:text-white/80 leading-relaxed text-sm flex-1">I moved to Kathmandu without knowing anyone. Three hikes later I had a friend group I actually look forward to seeing every weekend.</blockquote>
+        <figcaption class="flex items-center gap-3 pt-2">
+          <img src="https://i.pravatar.cc/64?img=44" alt="" class="w-10 h-10 rounded-full object-cover" loading="lazy">
+          <div>
+            <p class="text-sm font-semibold text-ink dark:text-white">Anita Shrestha</p>
+            <p class="text-xs text-ink/45 dark:text-white/45">Kathmandu Hiking Club</p>
+          </div>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal stagger-1 lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card p-7 flex flex-col gap-5">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="none" class="text-gold"><path fill="currentColor" d="M0 20V11.2C0 4.5 3.9 0.6 9.8 0v3.9c-3 0.6-4.6 2.6-4.8 5.5H9.8V20H0Zm15.2 0V11.2c0-6.7 3.9-10.6 9.8-11.2v3.9c-3 0.6-4.6 2.6-4.8 5.5h4.6V20h-9.6Z"/></svg>
+        <blockquote class="text-ink/80 dark:text-white/80 leading-relaxed text-sm flex-1">I went to one Startup Networking Night to "see what it's like" and walked out with my current co-founder. Best night I didn't plan for.</blockquote>
+        <figcaption class="flex items-center gap-3 pt-2">
+          <img src="https://i.pravatar.cc/64?img=15" alt="" class="w-10 h-10 rounded-full object-cover" loading="lazy">
+          <div>
+            <p class="text-sm font-semibold text-ink dark:text-white">Rohan Tamang</p>
+            <p class="text-xs text-ink/45 dark:text-white/45">Entrepreneurs Nepal</p>
+          </div>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal stagger-2 lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card p-7 flex flex-col gap-5">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="none" class="text-gold"><path fill="currentColor" d="M0 20V11.2C0 4.5 3.9 0.6 9.8 0v3.9c-3 0.6-4.6 2.6-4.8 5.5H9.8V20H0Zm15.2 0V11.2c0-6.7 3.9-10.6 9.8-11.2v3.9c-3 0.6-4.6 2.6-4.8 5.5h4.6V20h-9.6Z"/></svg>
+        <blockquote class="text-ink/80 dark:text-white/80 leading-relaxed text-sm flex-1">The Photography Club walks taught me more about my camera in a month than a year of YouTube tutorials — and I made friends doing it.</blockquote>
+        <figcaption class="flex items-center gap-3 pt-2">
+          <img src="https://i.pravatar.cc/64?img=58" alt="" class="w-10 h-10 rounded-full object-cover" loading="lazy">
+          <div>
+            <p class="text-sm font-semibold text-ink dark:text-white">Priya Gurung</p>
+            <p class="text-xs text-ink/45 dark:text-white/45">Photography Club Nepal</p>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="relative py-24 sm:py-32 bg-ink overflow-hidden">
+  <svg class="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 1280 500" preserveAspectRatio="xMidYMid slice" fill="none">
+    <path d="M-50 400 Q 250 330 500 380 T 1000 350 T 1400 400" stroke="#C9A227" stroke-opacity="0.5" stroke-width="1.5"/>
+    <path d="M-50 450 Q 300 400 600 440 T 1050 410 T 1400 450" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1.5"/>
+  </svg>
+  <div class="relative max-w-content mx-auto px-5 sm:px-8 text-center">
+    <p class="reveal eyebrow text-gold mb-5">Meet. Learn. Explore.</p>
+    <h2 class="reveal stagger-1 font-display text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-[1.08]">Your Next Adventure<br>Starts Here</h2>
+    <a href="#" class="reveal stagger-2 inline-block mt-10 px-9 py-4 rounded-full font-semibold btn-gold text-base">Join Velor Club</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" class="bg-charcoal text-white pt-16 pb-8">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+
+      <div class="lg:col-span-2">
+        <a href="#" class="flex items-center gap-2 mb-4">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none"><path d="M14 2L25 24H3L14 2Z" stroke="#C9A227" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 16L14 8L18.5 16" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span class="font-display text-lg">Velor Club</span>
+        </a>
+        <p class="text-white/55 text-sm leading-relaxed max-w-xs">A community platform connecting people through real-world experiences — starting in Nepal, built to go anywhere.</p>
+        <div class="flex items-center gap-3 mt-6">
+          <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full ring-1 ring-white/15 grid place-items-center hover:bg-white/10 transition-colors"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="5" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full ring-1 ring-white/15 grid place-items-center hover:bg-white/10 transition-colors"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="1.6" d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V12H8v3h2.5v6H14v-6h2.6l.4-3H14V9.8c0-.5.3-.8.8-.8Z"/></svg></a>
+          <a href="#" aria-label="LinkedIn" class="w-9 h-9 rounded-full ring-1 ring-white/15 grid place-items-center hover:bg-white/10 transition-colors"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="3" stroke-width="1.6"/><path stroke-width="1.6" stroke-linecap="round" d="M7.5 10v6M7.5 7.5v.01M12 16v-3.5c0-1.4 1-2.5 2.3-2.5s2.2 1 2.2 2.5V16M12 12.6v3.4"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow text-white/40 mb-4">Company</p>
+        <ul class="space-y-3 text-sm text-white/65">
+          <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Press</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="eyebrow text-white/40 mb-4">Platform</p>
+        <ul class="space-y-3 text-sm text-white/65">
+          <li><a href="#events" class="hover:text-white transition-colors">Events</a></li>
+          <li><a href="#communities" class="hover:text-white transition-colors">Communities</a></li>
+          <li><a href="#create-event" class="hover:text-white transition-colors">Create Event</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="eyebrow text-white/40 mb-4">Contact</p>
+        <ul class="space-y-3 text-sm text-white/65">
+          <li><a href="mailto:hello@velor.club" class="hover:text-white transition-colors">hello@velor.club</a></li>
+          <li>Kathmandu, Nepal</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 text-xs text-white/40">
+      <p>© 2026 Velor Club. All rights reserved.</p>
+      <p class="font-mono">Meet. Learn. Explore.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle with persistence
+  (function () {
+    const root = document.documentElement;
+    const stored = localStorage.getItem('velor-theme');
+    if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      root.classList.add('dark');
+    }
+    function toggle() {
+      root.classList.toggle('dark');
+      localStorage.setItem('velor-theme', root.classList.contains('dark') ? 'dark' : 'light');
+    }
+    document.getElementById('themeToggle')?.addEventListener('click', toggle);
+    document.getElementById('themeToggleMobile')?.addEventListener('click', toggle);
+  })();
+
+  // Mobile menu
+  (function () {
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobile-menu');
+    const open = document.getElementById('menuIconOpen');
+    const close = document.getElementById('menuIconClose');
+    let isOpen = false;
+    btn?.addEventListener('click', () => {
+      isOpen = !isOpen;
+      menu.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', String(isOpen));
+      open.classList.toggle('hidden', isOpen);
+      close.classList.toggle('hidden', !isOpen);
+    });
+    menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      isOpen = false;
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      open.classList.remove('hidden');
+      close.classList.add('hidden');
+    }));
+  })();
+
+  // Navbar shrink/blur on scroll
+  (function () {
+    const navbar = document.getElementById('navbar');
+    const inner = document.getElementById('navInner');
+    function onScroll() {
+      const scrolled = window.scrollY > 24;
+      navbar.classList.toggle('bg-white/85', scrolled);
+      navbar.classList.toggle('dark:bg-ink/85', scrolled);
+      navbar.classList.toggle('backdrop-blur-md', scrolled);
+      navbar.classList.toggle('shadow-sm', scrolled);
+      inner.classList.toggle('py-4', !scrolled);
+      inner.classList.toggle('py-3', scrolled);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  // Scroll reveal
+  (function () {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => io.observe(el));
+  })();
+</script>
+
+</body>
+</html>
