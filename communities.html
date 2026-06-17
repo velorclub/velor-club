@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communities — Velor Club</title>
+<meta name="description" content="Browse hiking, camping, travel, networking, and learning communities on Velor Club, Nepal's community platform for real-world experiences.">
+<meta name="theme-color" content="#111111">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          ink: '#111111',
+          paper: '#FFFFFF',
+          gold: '#C9A227',
+          stone: '#F7F4EE',
+          charcoal: '#1B1B1B',
+          'charcoal-2': '#232323',
+          'gold-tint': '#E8DCB8',
+          mist: '#EFEBE2',
+        },
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          sans: ['Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        },
+        maxWidth: { 'content': '1280px' },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root { color-scheme: light; }
+  html.dark { color-scheme: dark; }
+  * { -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  body {
+    background: #FFFFFF;
+    color: #111111;
+    font-family: 'Inter', sans-serif;
+    transition: background-color .35s ease, color .35s ease;
+  }
+  html.dark body { background: #111111; color: #F5F3EE; }
+
+  .font-display { font-family: 'Fraunces', serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid #C9A227;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+  .stagger-1 { transition-delay: 0.05s; }
+  .stagger-2 { transition-delay: 0.12s; }
+  .stagger-3 { transition-delay: 0.19s; }
+
+  .lift { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; }
+  .lift:hover { transform: translateY(-6px); }
+
+  .scroll-x { -ms-overflow-style: none; scrollbar-width: none; }
+  .scroll-x::-webkit-scrollbar { display: none; }
+
+  .underline-grow {
+    background-image: linear-gradient(#C9A227, #C9A227);
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size .35s ease;
+  }
+  .underline-grow:hover { background-size: 100% 1.5px; }
+
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .btn-primary { background: #111111; color: #FFFFFF; transition: background-color .3s ease, transform .2s ease; }
+  html.dark .btn-primary { background: #C9A227; color: #111111; }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-gold { background: #C9A227; color: #111111; transition: filter .3s ease, transform .2s ease; }
+  .btn-gold:hover { filter: brightness(1.08); transform: translateY(-2px); }
+
+  .ring-card { border: 1px solid rgba(17,17,17,0.08); }
+  html.dark .ring-card { border-color: rgba(255,255,255,0.10); }
+
+  #mobile-menu { transform: translateY(-12px); opacity: 0; pointer-events: none; transition: transform .3s cubic-bezier(.2,.7,.2,1), opacity .3s ease; }
+  #mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+  .avatar-stack img { box-shadow: 0 0 0 2px #FFFFFF; }
+  html.dark .avatar-stack img { box-shadow: 0 0 0 2px #1B1B1B; }
+
+  .chip { transition: background-color .25s ease, color .25s ease, border-color .25s ease; }
+  .chip[data-active="true"] { background: #111111; color: #fff; border-color: #111111; }
+  html.dark .chip[data-active="true"] { background: #C9A227; color: #111111; border-color: #C9A227; }
+
+  .search-input { transition: border-color .25s ease, box-shadow .25s ease; }
+  .search-input:focus { border-color: #C9A227; box-shadow: 0 0 0 3px rgba(201,162,39,0.15); outline: none; }
+
+  .grid-item { transition: opacity .3s ease, transform .3s ease; }
+  .grid-item.hidden-item { display: none; }
+</style>
+</head>
+
+<body class="antialiased selection:bg-gold selection:text-ink">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-ink focus:text-white focus:px-4 focus:py-2 focus:rounded">Skip to content</a>
+
+<!-- ============ NAVBAR ============ -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+    <div id="navInner" class="flex items-center justify-between py-4 transition-all duration-300">
+      <a href="index.html" class="flex items-center gap-2 group">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" class="shrink-0">
+          <path d="M14 2L25 24H3L14 2Z" stroke="#C9A227" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M9.5 16L14 8L18.5 16" stroke="currentColor" class="text-ink dark:text-white" stroke-width="1.6" stroke-linejoin="round"/>
+        </svg>
+        <span class="font-display text-xl tracking-tight text-ink dark:text-white">Velor <span class="text-gold">Club</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-9 font-mono text-[0.78rem] tracking-wide uppercase text-ink/70 dark:text-white/70">
+        <a href="index.html" class="underline-grow hover:text-ink dark:hover:text-white">Home</a>
+        <a href="communities.html" class="underline-grow text-ink dark:text-white">Communities</a>
+        <a href="index.html#events" class="underline-grow hover:text-ink dark:hover:text-white">Events</a>
+        <a href="index.html#create-event" class="underline-grow hover:text-ink dark:hover:text-white">Create Event</a>
+        <a href="index.html#about" class="underline-grow hover:text-ink dark:hover:text-white">About</a>
+        <a href="index.html#contact" class="underline-grow hover:text-ink dark:hover:text-white">Contact</a>
+      </nav>
+
+      <div class="hidden md:flex items-center gap-3">
+        <button id="themeToggle" aria-label="Toggle dark mode" class="w-9 h-9 grid place-items-center rounded-full ring-card hover:bg-stone dark:hover:bg-charcoal-2 transition-colors">
+          <svg id="iconSun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:hidden"><circle cx="12" cy="12" r="4.2" stroke-width="1.8"/><path stroke-width="1.8" stroke-linecap="round" d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+          <svg id="iconMoon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="hidden dark:block text-white"><path stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        </button>
+        <a href="#" class="px-5 py-2.5 rounded-full text-sm font-semibold btn-primary">Join Velor Club</a>
+      </div>
+
+      <div class="flex items-center gap-2 md:hidden">
+        <button id="themeToggleMobile" aria-label="Toggle dark mode" class="w-9 h-9 grid place-items-center rounded-full ring-card">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:hidden"><circle cx="12" cy="12" r="4.2" stroke-width="1.8"/><path stroke-width="1.8" stroke-linecap="round" d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="hidden dark:block text-white"><path stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        </button>
+        <button id="menuBtn" aria-label="Open menu" aria-expanded="false" class="w-9 h-9 grid place-items-center rounded-full ring-card">
+          <svg id="menuIconOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:text-white"><path stroke-width="1.8" stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18"/></svg>
+          <svg id="menuIconClose" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:text-white hidden"><path stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden absolute top-full inset-x-0 bg-white dark:bg-ink border-t border-ink/10 dark:border-white/10 shadow-xl">
+    <nav class="flex flex-col px-6 py-6 gap-1 font-mono text-sm uppercase tracking-wide">
+      <a href="index.html" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Home</a>
+      <a href="communities.html" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink dark:text-white">Communities</a>
+      <a href="index.html#events" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Events</a>
+      <a href="index.html#create-event" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Create Event</a>
+      <a href="index.html#about" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">About</a>
+      <a href="index.html#contact" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Contact</a>
+      <a href="#" class="mt-4 text-center px-5 py-3 rounded-full text-sm font-semibold btn-primary normal-case">Join Velor Club</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ PAGE HERO ============ -->
+<section class="relative overflow-hidden bg-stone dark:bg-charcoal pt-32 pb-14 sm:pt-40 sm:pb-16">
+  <div class="absolute inset-0 grain"></div>
+  <svg class="absolute inset-0 w-full h-full opacity-[0.5] dark:opacity-[0.25]" viewBox="0 0 1280 400" preserveAspectRatio="xMidYMid slice" fill="none">
+    <path d="M-50 320 Q 200 280 400 310 T 900 290 T 1400 320" stroke="#111111" stroke-opacity="0.08" stroke-width="1.5"/>
+    <path d="M-50 350 Q 250 310 480 340 T 950 320 T 1400 360" stroke="#C9A227" stroke-opacity="0.18" stroke-width="1.5"/>
+  </svg>
+
+  <div class="relative max-w-content mx-auto px-5 sm:px-8">
+    <p class="reveal in-view eyebrow text-gold mb-4">140+ groups · 3,200+ members</p>
+    <h1 class="reveal in-view stagger-1 font-display text-4xl sm:text-5xl lg:text-6xl text-ink dark:text-white tracking-tight max-w-2xl">
+      Find your community
+    </h1>
+    <p class="reveal in-view stagger-2 mt-5 text-lg text-ink/70 dark:text-white/70 max-w-lg leading-relaxed">
+      Every group here is run by members, not Velor. Pick one that matches what you're into, and show up.
+    </p>
+  </div>
+</section>
+
+<!-- ============ FILTER + SEARCH BAR ============ -->
+<section class="sticky top-[64px] sm:top-[72px] z-30 bg-white/90 dark:bg-ink/90 backdrop-blur-md border-b border-ink/8 dark:border-white/8">
+  <div class="max-w-content mx-auto px-5 sm:px-8 py-4">
+    <div class="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+
+      <div class="relative w-full sm:max-w-xs">
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink/40 dark:text-white/40" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input id="searchInput" type="text" placeholder="Search communities..."
+          class="search-input w-full pl-10 pr-4 py-2.5 rounded-full bg-stone dark:bg-charcoal-2 ring-1 ring-ink/10 dark:ring-white/10 text-sm text-ink dark:text-white placeholder:text-ink/40 dark:placeholder:text-white/40">
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto scroll-x -mx-5 px-5 sm:mx-0 sm:px-0 sm:flex-wrap">
+        <button data-filter="all" data-active="true" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">All</button>
+        <button data-filter="hiking" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🥾 Hiking</button>
+        <button data-filter="camping" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🏕 Camping</button>
+        <button data-filter="travel" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">✈️ Travel</button>
+        <button data-filter="networking" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">💼 Networking</button>
+        <button data-filter="tech" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🤖 AI &amp; Tech</button>
+        <button data-filter="photography" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">📸 Photography</button>
+        <button data-filter="cycling" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🚴 Cycling</button>
+        <button data-filter="learning" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">📚 Learning</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMMUNITY GRID ============ -->
+<section class="py-14 sm:py-20 bg-white dark:bg-ink">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+
+    <div class="flex items-center justify-between mb-8">
+      <p id="resultCount" class="font-mono text-xs uppercase tracking-wide text-ink/45 dark:text-white/45">12 communities</p>
+    </div>
+
+    <div id="communityGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <article data-category="hiking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=800&auto=format&fit=crop" alt="Hikers on a Kathmandu valley ridge trail" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Hiking</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Kathmandu Hiking Club</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Weekend trails, sunrise summits, and a crew that always brings extra tea.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">842 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="travel" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop" alt="Travelers looking over a mountain valley" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Travel</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Nepal Travel Buddies</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Find a co-traveler for your next route, from Pokhara lakeside to Mustang.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">611 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="networking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=800&auto=format&fit=crop" alt="Founders meeting at a cafe table with laptops" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Networking</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Entrepreneurs Nepal</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Founders, operators, and first hires building things — and comparing notes.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">498 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="tech" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop" alt="People at a workshop looking at a laptop screen" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">AI &amp; Tech</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">AI Learners Nepal</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Weekly build-alongs, paper readings, and demo nights for the curious.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">356 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="photography" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1554080353-a576cf803bda?q=80&w=800&auto=format&fit=crop" alt="Photographer adjusting a camera outdoors" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Photography</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Photography Club Nepal</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Golden-hour walks and feedback sessions, all gear levels welcome.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">279 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="camping hiking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=800&auto=format&fit=crop" alt="Group camping with tents near a forest" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Camping</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Weekend Adventure Club</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">For the "let's just go" crowd — camping, day trips, and spontaneous plans.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">734 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="cycling" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=800&auto=format&fit=crop" alt="Cyclists riding together on a countryside road" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Cycling</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Kathmandu Riders Collective</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Early morning rides around the valley rim, all pace groups welcome.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">203 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="learning" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop" alt="People reading and studying together at a table" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Learning</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Kathmandu Book Circle</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">A new book every month, and a long discussion over coffee after.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">187 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="networking learning" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop" alt="People collaborating at a workshop table" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Networking</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Women in Tech Nepal</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Mentorship, meetups, and a space built by and for women in tech.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">312 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="travel hiking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" alt="Trail leading toward forested hills" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Hiking</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Pokhara Trail Society</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Lakeside walks and longer treks for the Pokhara-based crowd.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">298 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="photography learning" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=800&auto=format&fit=crop" alt="Photographer walking through old city streets at sunset" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">Photography</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Street Frames Kathmandu</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Street and documentary photography walks through the old city.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">164 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+      <article data-category="tech networking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=800&auto=format&fit=crop" alt="Developers working together at laptops" class="w-full h-44 object-cover" loading="lazy">
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <span class="eyebrow text-gold">AI &amp; Tech</span>
+          <h3 class="font-display text-xl text-ink dark:text-white">Builders Kathmandu</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Hack nights and demo days for people shipping side projects.</p>
+          <div class="flex items-center justify-between pt-2">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45">221 members</span>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Empty state -->
+    <div id="emptyState" class="hidden flex-col items-center text-center py-20 gap-3">
+      <span class="text-3xl">🔍</span>
+      <h3 class="font-display text-xl text-ink dark:text-white">No communities match that</h3>
+      <p class="text-sm text-ink/55 dark:text-white/55 max-w-xs">Try a different category or search term, or start the group yourself.</p>
+      <a href="index.html#create-event" class="mt-2 px-5 py-2.5 rounded-full text-xs font-semibold btn-gold">Create Event</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="relative py-20 sm:py-28 bg-ink overflow-hidden">
+  <svg class="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 1280 400" preserveAspectRatio="xMidYMid slice" fill="none">
+    <path d="M-50 320 Q 250 270 500 310 T 1000 290 T 1400 320" stroke="#C9A227" stroke-opacity="0.5" stroke-width="1.5"/>
+  </svg>
+  <div class="relative max-w-content mx-auto px-5 sm:px-8 text-center">
+    <p class="reveal eyebrow text-gold mb-5">Don't see your thing?</p>
+    <h2 class="reveal stagger-1 font-display text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">Start a community<br>of your own</h2>
+    <a href="index.html#create-event" class="reveal stagger-2 inline-block mt-9 px-9 py-4 rounded-full font-semibold btn-gold text-base">Create Event</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" class="bg-charcoal text-white pt-16 pb-8">
+  <div class="max-w-content mx-auto px-5 sm:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+
+      <div class="lg:col-span-2">
+        <a href="index.html" class="flex items-center gap-2 mb-4">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none"><path d="M14 2L25 24H3L14 2Z" stroke="#C9A227" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 16L14 8L18.5 16" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span class="font-display text-lg">Velor Club</span>
+        </a>
+        <p class="text-white/55 text-sm leading-relaxed max-w-xs">A community platform connecting people through real-world experiences — starting in Nepal, built to go anywhere.</p>
+        <div class="flex items-center gap-3 mt-6">
+          <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full ring-1 ring-white/15 grid place-items-center hover:bg-white/10 transition-colors"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="5" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full ring-1 ring-white/15 grid place-items-center hover:bg-white/10 transition-colors"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="1.6" d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V12H8v3h2.5v6H14v-6h2.6l.4-3H14V9.8c0-.5.3-.8.8-.8Z"/></svg></a>
+          <a href="#" aria-label="LinkedIn" class="w-9 h-9 rounded-full ring-1 ring-white/15 grid place-items-center hover:bg-white/10 transition-colors"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="3" stroke-width="1.6"/><path stroke-width="1.6" stroke-linecap="round" d="M7.5 10v6M7.5 7.5v.01M12 16v-3.5c0-1.4 1-2.5 2.3-2.5s2.2 1 2.2 2.5V16M12 12.6v3.4"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow text-white/40 mb-4">Company</p>
+        <ul class="space-y-3 text-sm text-white/65">
+          <li><a href="index.html#about" class="hover:text-white transition-colors">About</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Press</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="eyebrow text-white/40 mb-4">Platform</p>
+        <ul class="space-y-3 text-sm text-white/65">
+          <li><a href="index.html#events" class="hover:text-white transition-colors">Events</a></li>
+          <li><a href="communities.html" class="hover:text-white transition-colors">Communities</a></li>
+          <li><a href="index.html#create-event" class="hover:text-white transition-colors">Create Event</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="eyebrow text-white/40 mb-4">Contact</p>
+        <ul class="space-y-3 text-sm text-white/65">
+          <li><a href="mailto:hello@velor.club" class="hover:text-white transition-colors">hello@velor.club</a></li>
+          <li>Kathmandu, Nepal</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 text-xs text-white/40">
+      <p>© 2026 Velor Club. All rights reserved.</p>
+      <p class="font-mono">Meet. Learn. Explore.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle with persistence
+  (function () {
+    const root = document.documentElement;
+    const stored = localStorage.getItem('velor-theme');
+    if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      root.classList.add('dark');
+    }
+    function toggle() {
+      root.classList.toggle('dark');
+      localStorage.setItem('velor-theme', root.classList.contains('dark') ? 'dark' : 'light');
+    }
+    document.getElementById('themeToggle')?.addEventListener('click', toggle);
+    document.getElementById('themeToggleMobile')?.addEventListener('click', toggle);
+  })();
+
+  // Mobile menu
+  (function () {
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobile-menu');
+    const open = document.getElementById('menuIconOpen');
+    const close = document.getElementById('menuIconClose');
+    let isOpen = false;
+    btn?.addEventListener('click', () => {
+      isOpen = !isOpen;
+      menu.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', String(isOpen));
+      open.classList.toggle('hidden', isOpen);
+      close.classList.toggle('hidden', !isOpen);
+    });
+    menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      isOpen = false;
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      open.classList.remove('hidden');
+      close.classList.add('hidden');
+    }));
+  })();
+
+  // Navbar shrink/blur on scroll
+  (function () {
+    const navbar = document.getElementById('navbar');
+    const inner = document.getElementById('navInner');
+    function onScroll() {
+      const scrolled = window.scrollY > 24;
+      navbar.classList.toggle('bg-white/85', scrolled);
+      navbar.classList.toggle('dark:bg-ink/85', scrolled);
+      navbar.classList.toggle('backdrop-blur-md', scrolled);
+      navbar.classList.toggle('shadow-sm', scrolled);
+      inner.classList.toggle('py-4', !scrolled);
+      inner.classList.toggle('py-3', scrolled);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  // Scroll reveal
+  (function () {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => io.observe(el));
+  })();
+
+  // Filter + search
+  (function () {
+    const chips = document.querySelectorAll('.chip');
+    const cards = document.querySelectorAll('.grid-item');
+    const searchInput = document.getElementById('searchInput');
+    const resultCount = document.getElementById('resultCount');
+    const emptyState = document.getElementById('emptyState');
+    const grid = document.getElementById('communityGrid');
+    let activeFilter = 'all';
+
+    function applyFilters() {
+      const term = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const categories = card.dataset.category.split(' ');
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const desc = card.querySelector('p').textContent.toLowerCase();
+
+        const matchesFilter = activeFilter === 'all' || categories.includes(activeFilter);
+        const matchesSearch = term === '' || title.includes(term) || desc.includes(term);
+
+        const visible = matchesFilter && matchesSearch;
+        card.classList.toggle('hidden-item', !visible);
+        if (visible) visibleCount++;
+      });
+
+      resultCount.textContent = `${visibleCount} communit${visibleCount === 1 ? 'y' : 'ies'}`;
+      emptyState.classList.toggle('hidden', visibleCount !== 0);
+      emptyState.classList.toggle('flex', visibleCount === 0);
+      grid.classList.toggle('hidden', visibleCount === 0);
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.dataset.active = 'false');
+        chip.dataset.active = 'true';
+        activeFilter = chip.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+  })();
+</script>
+
+</body>
+</html>
