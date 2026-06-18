@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Communities — Velor Club</title>
-<meta name="description" content="Browse hiking, camping, travel, networking, and learning communities on Velor Club, Nepal's community platform for real-world experiences.">
+<title>Events — Velor Club</title>
+<meta name="description" content="Browse upcoming hiking, camping, networking, workshop, and travel events on Velor Club, Nepal's community platform for real-world experiences.">
 <meta name="theme-color" content="#111111">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -132,6 +132,36 @@
 
   .grid-item { transition: opacity .3s ease, transform .3s ease; }
   .grid-item.hidden-item { display: none; }
+
+  /* RSVP modal */
+  #rsvpModal { transition: opacity .3s ease; }
+  #rsvpModal.hidden-modal { opacity: 0; pointer-events: none; }
+  #rsvpModal .modal-panel {
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .35s ease;
+    transform: translateY(16px) scale(0.98);
+    opacity: 0;
+  }
+  #rsvpModal.modal-open .modal-panel {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  /* Toast */
+  #toast {
+    transition: transform .4s cubic-bezier(.2,.7,.2,1), opacity .4s ease;
+    transform: translateY(120%);
+    opacity: 0;
+  }
+  #toast.toast-show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Join button success state */
+  .btn-joined {
+    background: #1B7A3D !important;
+    color: #fff !important;
+  }
 </style>
 </head>
 
@@ -153,8 +183,8 @@
 
       <nav class="hidden md:flex items-center gap-9 font-mono text-[0.78rem] tracking-wide uppercase text-ink/70 dark:text-white/70">
         <a href="index.html" class="underline-grow hover:text-ink dark:hover:text-white">Home</a>
-        <a href="communities.html" class="underline-grow text-ink dark:text-white">Communities</a>
-        <a href="events.html" class="underline-grow hover:text-ink dark:hover:text-white">Events</a>
+        <a href="communities.html" class="underline-grow hover:text-ink dark:hover:text-white">Communities</a>
+        <a href="events.html" class="underline-grow text-ink dark:text-white">Events</a>
         <a href="index.html#create-event" class="underline-grow hover:text-ink dark:hover:text-white">Create Event</a>
         <a href="index.html#about" class="underline-grow hover:text-ink dark:hover:text-white">About</a>
         <a href="index.html#contact" class="underline-grow hover:text-ink dark:hover:text-white">Contact</a>
@@ -165,7 +195,7 @@
           <svg id="iconSun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:hidden"><circle cx="12" cy="12" r="4.2" stroke-width="1.8"/><path stroke-width="1.8" stroke-linecap="round" d="M12 2.5v3M12 18.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2.5 12h3M18.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
           <svg id="iconMoon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="hidden dark:block text-white"><path stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
         </button>
-        <a href="#" class="px-5 py-2.5 rounded-full text-sm font-semibold btn-primary">Join Velor Club</a>
+        <a href="index.html#create-event" class="px-5 py-2.5 rounded-full text-sm font-semibold btn-primary">Join Velor Club</a>
       </div>
 
       <div class="flex items-center gap-2 md:hidden">
@@ -184,12 +214,12 @@
   <div id="mobile-menu" class="md:hidden absolute top-full inset-x-0 bg-white dark:bg-ink border-t border-ink/10 dark:border-white/10 shadow-xl">
     <nav class="flex flex-col px-6 py-6 gap-1 font-mono text-sm uppercase tracking-wide">
       <a href="index.html" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Home</a>
-      <a href="communities.html" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink dark:text-white">Communities</a>
-      <a href="events.html" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Events</a>
+      <a href="communities.html" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Communities</a>
+      <a href="events.html" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink dark:text-white">Events</a>
       <a href="index.html#create-event" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Create Event</a>
       <a href="index.html#about" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">About</a>
       <a href="index.html#contact" class="py-3 border-b border-ink/5 dark:border-white/5 text-ink/80 dark:text-white/80">Contact</a>
-      <a href="#" class="mt-4 text-center px-5 py-3 rounded-full text-sm font-semibold btn-primary normal-case">Join Velor Club</a>
+      <a href="index.html#create-event" class="mt-4 text-center px-5 py-3 rounded-full text-sm font-semibold btn-primary normal-case">Join Velor Club</a>
     </nav>
   </div>
 </header>
@@ -204,14 +234,17 @@
     <path d="M-50 350 Q 250 310 480 340 T 950 320 T 1400 360" stroke="#C9A227" stroke-opacity="0.18" stroke-width="1.5"/>
   </svg>
 
-  <div class="relative max-w-content mx-auto px-5 sm:px-8">
-    <p class="reveal in-view eyebrow text-gold mb-4">140+ groups · 3,200+ members</p>
-    <h1 class="reveal in-view stagger-1 font-display text-4xl sm:text-5xl lg:text-6xl text-ink dark:text-white tracking-tight max-w-2xl">
-      Find your community
-    </h1>
-    <p class="reveal in-view stagger-2 mt-5 text-lg text-ink/70 dark:text-white/70 max-w-lg leading-relaxed">
-      Every group here is run by members, not Velor. Pick one that matches what you're into, and show up.
-    </p>
+  <div class="relative max-w-content mx-auto px-5 sm:px-8 flex flex-wrap items-end justify-between gap-6">
+    <div>
+      <p class="reveal in-view eyebrow text-gold mb-4">This month in Nepal</p>
+      <h1 class="reveal in-view stagger-1 font-display text-4xl sm:text-5xl lg:text-6xl text-ink dark:text-white tracking-tight max-w-2xl">
+        Upcoming events
+      </h1>
+      <p class="reveal in-view stagger-2 mt-5 text-lg text-ink/70 dark:text-white/70 max-w-lg leading-relaxed">
+        Hikes, workshops, networking nights, and more — RSVP and just show up.
+      </p>
+    </div>
+    <a href="index.html#create-event" class="reveal in-view stagger-2 shrink-0 px-6 py-3 rounded-full font-semibold text-sm btn-gold">+ Create Event</a>
   </div>
 </section>
 
@@ -222,7 +255,7 @@
 
       <div class="relative w-full sm:max-w-xs">
         <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink/40 dark:text-white/40" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <input id="searchInput" type="text" placeholder="Search communities..."
+        <input id="searchInput" type="text" placeholder="Search events..."
           class="search-input w-full pl-10 pr-4 py-2.5 rounded-full bg-stone dark:bg-charcoal-2 ring-1 ring-ink/10 dark:ring-white/10 text-sm text-ink dark:text-white placeholder:text-ink/40 dark:placeholder:text-white/40">
       </div>
 
@@ -230,179 +263,165 @@
         <button data-filter="all" data-active="true" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">All</button>
         <button data-filter="hiking" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🥾 Hiking</button>
         <button data-filter="camping" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🏕 Camping</button>
-        <button data-filter="travel" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">✈️ Travel</button>
         <button data-filter="networking" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">💼 Networking</button>
-        <button data-filter="tech" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🤖 AI &amp; Tech</button>
+        <button data-filter="workshop" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🤖 Workshop</button>
         <button data-filter="photography" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">📸 Photography</button>
-        <button data-filter="cycling" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">🚴 Cycling</button>
-        <button data-filter="learning" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">📚 Learning</button>
+        <button data-filter="travel" class="chip shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wide ring-1 ring-ink/15 dark:ring-white/15 text-ink dark:text-white">✈️ Travel</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ COMMUNITY GRID ============ -->
+<!-- ============ EVENTS GRID ============ -->
 <section class="py-14 sm:py-20 bg-white dark:bg-ink">
   <div class="max-w-content mx-auto px-5 sm:px-8">
 
     <div class="flex items-center justify-between mb-8">
-      <p id="resultCount" class="font-mono text-xs uppercase tracking-wide text-ink/45 dark:text-white/45">12 communities</p>
+      <p id="resultCount" class="font-mono text-xs uppercase tracking-wide text-ink/45 dark:text-white/45">9 events</p>
     </div>
 
-    <div id="communityGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div id="eventGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <article data-category="hiking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=800&auto=format&fit=crop" alt="Hikers on a Kathmandu valley ridge trail" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Hiking</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Kathmandu Hiking Club</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Weekend trails, sunrise summits, and a crew that always brings extra tea.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">842 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+      <article data-category="hiking" data-event="Shivapuri Weekend Hike" data-location="Shivapuri National Park, Kathmandu" data-date="Sat, Jun 20 · 6:00 AM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" alt="Trail leading toward forested hills near Shivapuri" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Hiking</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SAT, JUN 20 · 6:00 AM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Shivapuri Weekend Hike</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Shivapuri National Park, Kathmandu</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">42 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
 
-      <article data-category="travel" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop" alt="Travelers looking over a mountain valley" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Travel</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Nepal Travel Buddies</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Find a co-traveler for your next route, from Pokhara lakeside to Mustang.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">611 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+      <article data-category="networking" data-event="Startup Networking Night" data-location="Thamel, Kathmandu" data-date="Thu, Jun 25 · 6:30 PM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" alt="People networking at an evening event" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Networking</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">THU, JUN 25 · 6:30 PM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Startup Networking Night</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Thamel, Kathmandu</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">68 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
 
-      <article data-category="networking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=800&auto=format&fit=crop" alt="Founders meeting at a cafe table with laptops" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Networking</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Entrepreneurs Nepal</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Founders, operators, and first hires building things — and comparing notes.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">498 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+      <article data-category="workshop" data-event="AI Workshop Kathmandu" data-location="Baluwatar, Kathmandu" data-date="Sat, Jun 27 · 11:00 AM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop" alt="Workshop attendees collaborating around a laptop" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Workshop</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SAT, JUN 27 · 11:00 AM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">AI Workshop Kathmandu</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Baluwatar, Kathmandu</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">51 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
 
-      <article data-category="tech" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop" alt="People at a workshop looking at a laptop screen" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">AI &amp; Tech</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">AI Learners Nepal</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Weekly build-alongs, paper readings, and demo nights for the curious.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">356 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+      <article data-category="photography" data-event="Photography Walk" data-location="Patan Durbar Square" data-date="Sun, Jun 28 · 4:00 PM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=800&auto=format&fit=crop" alt="Photographer walking through old city streets at sunset" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Photography</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SUN, JUN 28 · 4:00 PM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Photography Walk</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Patan Durbar Square</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">29 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
 
-      <article data-category="photography" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1554080353-a576cf803bda?q=80&w=800&auto=format&fit=crop" alt="Photographer adjusting a camera outdoors" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Photography</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Photography Club Nepal</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Golden-hour walks and feedback sessions, all gear levels welcome.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">279 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+      <article data-category="camping" data-event="Camping Adventure" data-location="Tikathali, Pokhara" data-date="Fri, Jul 3 · 5:00 PM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=800&auto=format&fit=crop" alt="Tents set up by a lake at dusk" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Camping</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">FRI, JUL 3 · 5:00 PM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Camping Adventure</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Tikathali, Pokhara</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">37 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
 
-      <article data-category="camping hiking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=800&auto=format&fit=crop" alt="Group camping with tents near a forest" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Camping</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Weekend Adventure Club</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">For the "let's just go" crowd — camping, day trips, and spontaneous plans.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">734 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+      <article data-category="travel hiking" data-event="Pokhara Lakeside Walk & Meetup" data-location="Phewa Lake, Pokhara" data-date="Sat, Jul 4 · 9:00 AM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?q=80&w=800&auto=format&fit=crop" alt="Lakeside path with mountains in the background" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Travel</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SAT, JUL 4 · 9:00 AM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Pokhara Lakeside Walk &amp; Meetup</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Phewa Lake, Pokhara</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">24 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
 
-      <article data-category="cycling" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=800&auto=format&fit=crop" alt="Cyclists riding together on a countryside road" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Cycling</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Kathmandu Riders Collective</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Early morning rides around the valley rim, all pace groups welcome.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">203 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+      <article data-category="workshop networking" data-event="Founders Coffee & Demo Morning" data-location="Jhamsikhel, Lalitpur" data-date="Wed, Jul 8 · 8:30 AM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=800&auto=format&fit=crop" alt="Founders meeting at a cafe table with laptops" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Networking</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">WED, JUL 8 · 8:30 AM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Founders Coffee &amp; Demo Morning</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Jhamsikhel, Lalitpur</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">33 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
 
-      <article data-category="learning" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop" alt="People reading and studying together at a table" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Learning</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Kathmandu Book Circle</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">A new book every month, and a long discussion over coffee after.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">187 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+      <article data-category="hiking camping" data-event="Sunrise Trek: Nagarkot" data-location="Nagarkot" data-date="Sat, Jul 11 · 4:30 AM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=800&auto=format&fit=crop" alt="Hikers ascending a mountain trail at sunrise" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Hiking</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SAT, JUL 11 · 4:30 AM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Sunrise Trek: Nagarkot</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Nagarkot</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">19 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
 
-      <article data-category="networking learning" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop" alt="People collaborating at a workshop table" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Networking</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Women in Tech Nepal</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Mentorship, meetups, and a space built by and for women in tech.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">312 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
-          </div>
+      <article data-category="photography workshop" data-event="Portrait Lighting Workshop" data-location="Baluwatar, Kathmandu" data-date="Sun, Jul 12 · 2:00 PM" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1554080353-a576cf803bda?q=80&w=800&auto=format&fit=crop" alt="Photographer adjusting camera settings indoors" class="w-full h-44 object-cover" loading="lazy">
+          <span class="absolute top-3 left-3 bg-white/95 dark:bg-ink/90 px-3 py-1 rounded-full font-mono text-[0.65rem] uppercase tracking-wide text-ink dark:text-white">Photography</span>
         </div>
-      </article>
-
-      <article data-category="travel hiking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" alt="Trail leading toward forested hills" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Hiking</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Pokhara Trail Society</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Lakeside walks and longer treks for the Pokhara-based crowd.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">298 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
-          </div>
-        </div>
-      </article>
-
-      <article data-category="photography learning" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=800&auto=format&fit=crop" alt="Photographer walking through old city streets at sunset" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">Photography</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Street Frames Kathmandu</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Street and documentary photography walks through the old city.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">164 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
-          </div>
-        </div>
-      </article>
-
-      <article data-category="tech networking" class="grid-item lift bg-stone dark:bg-charcoal-2 rounded-2xl ring-card overflow-hidden flex flex-col">
-        <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=800&auto=format&fit=crop" alt="Developers working together at laptops" class="w-full h-44 object-cover" loading="lazy">
-        <div class="p-6 flex flex-col gap-3 flex-1">
-          <span class="eyebrow text-gold">AI &amp; Tech</span>
-          <h3 class="font-display text-xl text-ink dark:text-white">Builders Kathmandu</h3>
-          <p class="text-sm text-ink/55 dark:text-white/55 leading-relaxed flex-1">Hack nights and demo days for people shipping side projects.</p>
-          <div class="flex items-center justify-between pt-2">
-            <span class="font-mono text-xs text-ink/45 dark:text-white/45">221 members</span>
-            <button class="px-4 py-2 rounded-full text-xs font-semibold btn-gold">Join</button>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <p class="font-mono text-xs text-gold tracking-wide">SUN, JUL 12 · 2:00 PM</p>
+          <h3 class="font-display text-lg text-ink dark:text-white leading-snug">Portrait Lighting Workshop</h3>
+          <p class="text-sm text-ink/55 dark:text-white/55">Baluwatar, Kathmandu</p>
+          <div class="flex items-center justify-between pt-3 mt-auto">
+            <span class="font-mono text-xs text-ink/45 dark:text-white/45 going-count">15 going</span>
+            <button class="join-btn px-4 py-2 rounded-full text-xs font-semibold btn-primary">Join Event</button>
           </div>
         </div>
       </article>
@@ -412,8 +431,8 @@
     <!-- Empty state -->
     <div id="emptyState" class="hidden flex-col items-center text-center py-20 gap-3">
       <span class="text-3xl">🔍</span>
-      <h3 class="font-display text-xl text-ink dark:text-white">No communities match that</h3>
-      <p class="text-sm text-ink/55 dark:text-white/55 max-w-xs">Try a different category or search term, or start the group yourself.</p>
+      <h3 class="font-display text-xl text-ink dark:text-white">No events match that</h3>
+      <p class="text-sm text-ink/55 dark:text-white/55 max-w-xs">Try a different category or search term, or start your own.</p>
       <a href="index.html#create-event" class="mt-2 px-5 py-2.5 rounded-full text-xs font-semibold btn-gold">Create Event</a>
     </div>
 
@@ -426,13 +445,37 @@
     <path d="M-50 320 Q 250 270 500 310 T 1000 290 T 1400 320" stroke="#C9A227" stroke-opacity="0.5" stroke-width="1.5"/>
   </svg>
   <div class="relative max-w-content mx-auto px-5 sm:px-8 text-center">
-    <p class="reveal eyebrow text-gold mb-5">Don't see your thing?</p>
-    <h2 class="reveal stagger-1 font-display text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">Start a community<br>of your own</h2>
+    <p class="reveal eyebrow text-gold mb-5">Got something planned?</p>
+    <h2 class="reveal stagger-1 font-display text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">Host your own event<br>in minutes</h2>
     <a href="index.html#create-event" class="reveal stagger-2 inline-block mt-9 px-9 py-4 rounded-full font-semibold btn-gold text-base">Create Event</a>
   </div>
 </section>
 
 </main>
+
+<!-- ============ RSVP MODAL ============ -->
+<div id="rsvpModal" class="hidden-modal fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-5">
+  <div id="modalBackdrop" class="absolute inset-0 bg-ink/60 backdrop-blur-sm"></div>
+  <div class="modal-panel relative w-full sm:max-w-md bg-white dark:bg-charcoal-2 rounded-t-3xl sm:rounded-3xl ring-card p-7 sm:p-8">
+    <button id="modalClose" aria-label="Close" class="absolute top-5 right-5 w-8 h-8 rounded-full grid place-items-center hover:bg-stone dark:hover:bg-charcoal transition-colors">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-ink dark:text-white"><path stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <p class="eyebrow text-gold mb-2">You're going to</p>
+    <h3 id="modalEventTitle" class="font-display text-2xl text-ink dark:text-white leading-snug pr-8">Event title</h3>
+    <div class="mt-4 space-y-1.5 text-sm text-ink/60 dark:text-white/60">
+      <p id="modalEventDate" class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="16" rx="2" stroke-width="1.8"/><path stroke-width="1.8" stroke-linecap="round" d="M8 3v4M16 3v4M3 10h18"/></svg> Date</p>
+      <p id="modalEventLocation" class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="1.8" d="M12 21s-7-6.5-7-11.5a7 7 0 1 1 14 0C19 14.5 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4" stroke-width="1.8"/></svg> Location</p>
+    </div>
+    <p class="mt-5 text-sm text-ink/55 dark:text-white/55 leading-relaxed">We'll send a reminder the day before. No payment required — just show up ready to go.</p>
+    <button id="modalConfirm" class="mt-7 w-full px-6 py-3.5 rounded-full font-semibold text-sm btn-gold">Confirm RSVP</button>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[110] bg-ink dark:bg-white text-white dark:text-ink px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-2.5 text-sm font-medium">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg>
+  <span id="toastText">You're in! See you there.</span>
+</div>
 
 <!-- ============ FOOTER ============ -->
 <footer id="contact" class="bg-charcoal text-white pt-16 pb-8">
@@ -568,7 +611,7 @@
     const searchInput = document.getElementById('searchInput');
     const resultCount = document.getElementById('resultCount');
     const emptyState = document.getElementById('emptyState');
-    const grid = document.getElementById('communityGrid');
+    const grid = document.getElementById('eventGrid');
     let activeFilter = 'all';
 
     function applyFilters() {
@@ -578,17 +621,17 @@
       cards.forEach(card => {
         const categories = card.dataset.category.split(' ');
         const title = card.querySelector('h3').textContent.toLowerCase();
-        const desc = card.querySelector('p').textContent.toLowerCase();
+        const location = card.querySelector('p.text-sm').textContent.toLowerCase();
 
         const matchesFilter = activeFilter === 'all' || categories.includes(activeFilter);
-        const matchesSearch = term === '' || title.includes(term) || desc.includes(term);
+        const matchesSearch = term === '' || title.includes(term) || location.includes(term);
 
         const visible = matchesFilter && matchesSearch;
         card.classList.toggle('hidden-item', !visible);
         if (visible) visibleCount++;
       });
 
-      resultCount.textContent = `${visibleCount} communit${visibleCount === 1 ? 'y' : 'ies'}`;
+      resultCount.textContent = `${visibleCount} event${visibleCount === 1 ? '' : 's'}`;
       emptyState.classList.toggle('hidden', visibleCount !== 0);
       emptyState.classList.toggle('flex', visibleCount === 0);
       grid.classList.toggle('hidden', visibleCount === 0);
@@ -604,6 +647,75 @@
     });
 
     searchInput.addEventListener('input', applyFilters);
+  })();
+
+  // RSVP modal + toast
+  (function () {
+    const modal = document.getElementById('rsvpModal');
+    const backdrop = document.getElementById('modalBackdrop');
+    const closeBtn = document.getElementById('modalClose');
+    const confirmBtn = document.getElementById('modalConfirm');
+    const titleEl = document.getElementById('modalEventTitle');
+    const dateEl = document.getElementById('modalEventDate');
+    const locationEl = document.getElementById('modalEventLocation');
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toastText');
+
+    let activeCard = null;
+    let toastTimer = null;
+
+    function openModal(card) {
+      activeCard = card;
+      titleEl.textContent = card.dataset.event;
+      dateEl.innerHTML = dateEl.querySelector('svg').outerHTML + ' ' + card.dataset.date;
+      locationEl.innerHTML = locationEl.querySelector('svg').outerHTML + ' ' + card.dataset.location;
+      modal.classList.remove('hidden-modal');
+      requestAnimationFrame(() => modal.classList.add('modal-open'));
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('modal-open');
+      document.body.style.overflow = '';
+      setTimeout(() => modal.classList.add('hidden-modal'), 300);
+    }
+
+    function showToast(message) {
+      toastText.textContent = message;
+      toast.classList.add('toast-show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('toast-show'), 3200);
+    }
+
+    document.querySelectorAll('.join-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.grid-item');
+        if (btn.classList.contains('btn-joined')) return;
+        openModal(card);
+      });
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      if (activeCard) {
+        const btn = activeCard.querySelector('.join-btn');
+        const countEl = activeCard.querySelector('.going-count');
+        btn.textContent = 'Going ✓';
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-joined');
+
+        const current = parseInt(countEl.textContent.replace(/\D/g, ''), 10) || 0;
+        countEl.textContent = `${current + 1} going`;
+
+        showToast(`You're in for ${activeCard.dataset.event}!`);
+      }
+      closeModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('modal-open')) closeModal();
+    });
   })();
 </script>
 
